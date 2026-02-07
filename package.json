@@ -1,25 +1,26 @@
 {
-  "name": "inventory-application",
-  "version": "1.0.0",
-  "description": "The Odin Project - Express & PostgreSQL - Inventory Application",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/See-Monkey/inventory-application.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/See-Monkey/inventory-application/issues"
-  },
-  "homepage": "https://github.com/See-Monkey/inventory-application#readme",
-  "dependencies": {
-    "ejs": "^4.0.1",
-    "express": "^5.2.1",
-    "express-validator": "^7.3.1",
-    "pg": "^8.18.0"
-  }
+	"name": "inventory-application",
+	"version": "1.0.0",
+	"type": "module",
+	"description": "The Odin Project - Express & PostgreSQL - Inventory Application",
+	"main": "app.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/See-Monkey/inventory-application.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/See-Monkey/inventory-application/issues"
+	},
+	"homepage": "https://github.com/See-Monkey/inventory-application#readme",
+	"dependencies": {
+		"ejs": "^4.0.1",
+		"express": "^5.2.1",
+		"express-validator": "^7.3.1",
+		"pg": "^8.18.0"
+	}
 }

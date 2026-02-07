@@ -1,18 +1,22 @@
 #! /usr/bin/env node
 
+import { loadEnvFile } from "node:process";
+
 if (process.env.NODE_ENV !== "production") {
-	require("dotenv").config();
+	loadEnvFile();
 }
 
-const { Client } = require("pg");
+import { Client } from "pg";
 
 const SQL = `
-CREATE TABLE IF NOT EXISTS categories (
+DROP TABLE IF EXISTS inventory, categories CASCADE;
+
+CREATE TABLE categories (
   id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   name VARCHAR (255) UNIQUE NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS inventory (
+CREATE TABLE inventory (
   id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   item VARCHAR (255) NOT NULL,
   qty INT NOT NULL CHECK (qty >= 0),
@@ -41,7 +45,7 @@ VALUES
   ('Steel Shield', 5, 300, 2),
   ('Ebony Helmet', 1, 1400, 2),
   ('Health Potion', 25, 50, 3),
-  ('Mana Potion', 25, 50, 3),
+  ('Mana Potion', 20, 70, 3),
   ('Fireball Scroll', 8, 200, 4),
   ('Lightning Scroll', 8, 200, 4),
   ('Lockpick', 90, 5, 5);
