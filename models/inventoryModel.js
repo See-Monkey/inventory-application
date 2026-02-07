@@ -98,7 +98,7 @@ async function getAllCategories() {
 	const { rows } = await query(`
 		SELECT id, name
 		FROM categories
-		ORDER BY name;
+		ORDER BY id;
 	`);
 
 	return rows;

@@ -2,48 +2,46 @@
 <html>
 <head>
   <title>Edit Item</title>
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/item.css">
 </head>
 <body>
   <%- include("partials/header.ejs") %>
     
-  <h1>Edit Item: <%= item.item %></h1>
-
-  <form action="/item/<%= item.id %>" method="POST">
-    <label>
-      Name:
-      <input type="text" name="item" value="<%= item.item %>" required>
-    </label>
-    <br>
-
-    <label>
-      Quantity:
-      <input type="number" name="qty" value="<%= item.qty %>" min="0" required>
-    </label>
-    <br>
-
-    <label>
-      Price:
-      <input type="number" name="price" value="<%= item.price %>" min="0" required>
-    </label>
-    <br>
-
-    <label>
-      Category:
-      <select name="category" required>
-        <% categories.forEach(cat => { %>
-          <option value="<%= cat.id %>" <%= cat.id === item.category_id ? 'selected' : '' %>>
-            <%= cat.name %>
-          </option>
-        <% }) %>
-      </select>
-    </label>
-    <br><br>
-
-    <button type="submit">Save Changes</button>
-  </form>
-
-  <form action="/item/<%= item.id %>/delete" method="POST" style="margin-top:10px;">
-    <button type="submit" onclick="return confirm('Delete this item?')">Delete Item</button>
-  </form>
+  <main>
+    <h1>Edit Item: <%= item.item %></h1>
+    <form action="/item/<%= item.id %>" method="POST">
+      <label>
+        Name:
+        <input type="text" name="item" value="<%= item.item %>" required>
+      </label>
+      <br>
+      <label>
+        Quantity:
+        <input type="number" name="qty" value="<%= item.qty %>" min="0" required>
+      </label>
+      <br>
+      <label>
+        Price:
+        <input type="number" name="price" value="<%= item.price %>" min="0" required>
+      </label>
+      <br>
+      <label>
+        Category:
+        <select name="category" required>
+          <% categories.forEach(cat => { %>
+            <option value="<%= cat.id %>" <%= cat.id === item.category_id ? 'selected' : '' %>>
+              <%= cat.name %>
+            </option>
+          <% }) %>
+        </select>
+      </label>
+      <br><br>
+      <button type="submit" id="saveBtn">Save Changes</button>
+    </form>
+    <form action="/item/<%= item.id %>/delete" method="POST">
+      <button type="submit" onclick="return confirm('Delete this item?')" id="deleteBtn">Delete Item</button>
+    </form>
+  </main>
 </body>
 </html>

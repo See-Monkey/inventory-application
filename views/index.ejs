@@ -2,38 +2,42 @@
 <html>
 <head>
   <title>Inventory</title>
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/index.css">
 </head>
 <body>
   <%- include("partials/header.ejs") %>  
 
-  <h1>Inventory</h1>
-
-  <table border="1" cellpadding="5">
-    <thead>
-      <tr>
-        <th>Item</th>
-        <th>Quantity</th>
-        <th>Price</th>
-        <th>Category</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% items.forEach(item => { %>
+  <main>
+    <h1>Inventory</h1>
+    <table border="1" cellpadding="5">
+      <thead>
         <tr>
-          <td><%= item.item %></td>
-          <td><%= item.qty %></td>
-          <td><%= item.price %></td>
-          <td><%= item.category %></td>
-          <td>
-            <a href="/item/<%= item.id %>">Edit</a>
-            <form action="/item/<%= item.id %>/delete" method="POST" style="display:inline;">
-              <button type="submit" onclick="return confirm('Delete this item?')">Delete</button>
-            </form>
-          </td>
+          <th>Item</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Category</th>
+          <th>Actions</th>
         </tr>
-      <% }) %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% items.forEach(item => { %>
+          <tr>
+            <td><%= item.item %></td>
+            <td><%= item.qty %></td>
+            <td><%= item.price %></td>
+            <td><%= item.category %></td>
+            <td>
+              <a href="/item/<%= item.id %>">Edit</a>
+              <form action="/item/<%= item.id %>/delete" method="POST" style="display:inline;">
+                <button type="submit" onclick="return confirm('Delete this item?')">Delete</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <a href="/new">Add New Item</a>
+  </main>
 </body>
 </html>

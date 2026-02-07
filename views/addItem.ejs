@@ -2,42 +2,41 @@
 <html>
 <head>
   <title>Add New Item</title>
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/addItem.css">
 </head>
 <body>
   <%- include("partials/header.ejs") %>
 
-  <h1>Add New Item</h1>
-
-  <form action="/new" method="POST">
-    <label>
-      Name:
-      <input type="text" name="item" required>
-    </label>
-    <br>
-
-    <label>
-      Quantity:
-      <input type="number" name="qty" min="0" required>
-    </label>
-    <br>
-
-    <label>
-      Price:
-      <input type="number" name="price" min="0" required>
-    </label>
-    <br>
-
-    <label>
-      Category:
-      <select name="category" required>
-        <% categories.forEach(cat => { %>
-          <option value="<%= cat.id %>"><%= cat.name %></option>
-        <% }) %>
-      </select>
-    </label>
-    <br><br>
-
-    <button type="submit">Add Item</button>
-  </form>
+  <main>
+    <h1>Add New Item</h1>
+    <form action="/new" method="POST">
+      <label>
+        Name:
+        <input type="text" name="item" required>
+      </label>
+      <br>
+      <label>
+        Quantity:
+        <input type="number" name="qty" min="0" required>
+      </label>
+      <br>
+      <label>
+        Price:
+        <input type="number" name="price" min="0" required>
+      </label>
+      <br>
+      <label>
+        Category:
+        <select name="category" required>
+          <% categories.forEach(cat => { %>
+            <option value="<%= cat.id %>"><%= cat.name %></option>
+          <% }) %>
+        </select>
+      </label>
+      <br><br>
+      <button type="submit" id="addBtn">Add Item</button>
+    </form>
+  </main>
 </body>
 </html>
