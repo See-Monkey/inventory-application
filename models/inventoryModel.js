@@ -58,6 +58,53 @@ async function getItem(id) {
 	return rows[0] ?? null;
 }
 
+async function getFilteredItems({ search, category, sort, order }) {
+	const validSorts = {
+		item: "inventory.item",
+		qty: "inventory.qty",
+		price: "inventory.price",
+		category: "categories.id",
+	};
+
+	const sortColumn = validSorts[sort] ?? validSorts.category;
+	const sortOrder = order === "desc" ? "DESC" : "ASC";
+
+	const values = [];
+	let whereClauses = [];
+
+	if (search) {
+		values.push(`%${search}%`);
+		whereClauses.push(`inventory.item ILIKE $${values.length}`);
+	}
+
+	if (category) {
+		values.push(category);
+		whereClauses.push(`categories.id = $${values.length}`);
+	}
+
+	const whereSQL = whereClauses.length
+		? `WHERE ${whereClauses.join(" AND ")}`
+		: "";
+
+	const { rows } = await query(
+		`
+    SELECT inventory.id,
+           inventory.item,
+           inventory.qty,
+           inventory.price,
+           categories.id   AS category_id,
+           categories.name AS category
+    FROM inventory
+    JOIN categories ON inventory.category_id = categories.id
+    ${whereSQL}
+    ORDER BY ${sortColumn} ${sortOrder};
+    `,
+		values,
+	);
+
+	return rows;
+}
+
 async function addItem(item, qty, price, category) {
 	await query(
 		`
@@ -129,6 +176,7 @@ export default {
 	getAllItems,
 	searchItems,
 	getItem,
+	getFilteredItems,
 	addItem,
 	editItem,
 	deleteItem,

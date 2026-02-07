@@ -1,16 +1,27 @@
 import inventoryModel from "../models/inventoryModel.js";
 
 async function getIndex(req, res) {
-	const { search } = req.query;
+	const {
+		search = "",
+		category = "",
+		sort = "category",
+		order = "asc",
+	} = req.query;
 
-	let items;
-	if (search) {
-		items = await inventoryModel.searchItems(search);
-	} else {
-		items = await inventoryModel.getAllItems();
-	}
+	const items = await inventoryModel.getFilteredItems({
+		search,
+		category,
+		sort,
+		order,
+	});
 
-	res.render("index", { items });
+	const categories = await inventoryModel.getAllCategories();
+
+	res.render("index", {
+		items,
+		categories,
+		filters: { search, category, sort, order },
+	});
 }
 
 async function getAddItemForm(req, res) {

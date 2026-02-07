@@ -9,14 +9,94 @@
   <%- include("partials/header.ejs") %>  
 
   <main>
+    <form method="GET" action="/">
+    <input
+      type="text"
+      name="search"
+      placeholder="Search items..."
+      value="<%= filters.search %>"
+    />
+
+  <select name="category">
+    <option value="">All categories</option>
+    <% categories.forEach(cat => { %>
+      <option
+        value="<%= cat.id %>"
+        <%= String(filters.category) === String(cat.id) ? "selected" : "" %>
+      >
+        <%= cat.name %>
+      </option>
+    <% }) %>
+  </select>
+
+  <button type="submit">Apply</button>
+</form>
+
     <h1>Inventory</h1>
     <table border="1" cellpadding="5">
       <thead>
+
+        <%
+          function sortLink(column) {
+            const isActive = filters.sort === column;
+            const nextOrder =
+              isActive && filters.order === "asc" ? "desc" : "asc";
+
+            const params = new URLSearchParams({
+              search: filters.search,
+              category: filters.category,
+              sort: column,
+              order: nextOrder,
+            });
+
+            return {
+              url: "/?" + params.toString(),
+              isActive,
+              order: filters.order,
+            };
+          }
+        %>
+
+        <%
+          const sItem = sortLink("item");
+          const sQty = sortLink("qty");
+          const sPrice = sortLink("price");
+          const sCategory = sortLink("category");
+        %>
+
         <tr>
-          <th>Item</th>
-          <th>Quantity</th>
-          <th>Price</th>
-          <th>Category</th>
+          <th>
+            <a href="<%= sItem.url %>">
+              Item
+              <% if (sItem.isActive) { %>
+                <%= sItem.order === "asc" ? "▲" : "▼" %>
+              <% } %>
+            </a>
+          </th>
+          <th>
+            <a href="<%= sQty.url %>">
+              Quantity
+              <% if (sQty.isActive) { %>
+                <%= sQty.order === "asc" ? "▲" : "▼" %>
+              <% } %>
+            </a>
+          </th>
+          <th>
+            <a href="<%= sPrice.url %>">
+              Price
+              <% if (sPrice.isActive) { %>
+                <%= sPrice.order === "asc" ? "▲" : "▼" %>
+              <% } %>
+            </a>
+          </th>
+          <th>
+            <a href="<%= sCategory.url %>">
+              Category
+              <% if (sCategory.isActive) { %>
+                <%= sCategory.order === "asc" ? "▲" : "▼" %>
+              <% } %>
+            </a>
+          </th>
           <th>Actions</th>
         </tr>
       </thead>
