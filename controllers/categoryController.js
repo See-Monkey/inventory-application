@@ -20,4 +20,4 @@ async function postDeleteCategory(req, res) {
 	res.redirect("/categories");
 }
 
-export { getCategories, postAddCategory, postDeleteCategory };
+export default { getCategories, postAddCategory, postDeleteCategory };

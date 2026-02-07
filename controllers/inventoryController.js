@@ -14,12 +14,14 @@ async function getIndex(req, res) {
 }
 
 async function getAddItemForm(req, res) {
-	res.render("addItem");
+	const categories = await inventoryModel.getAllCategories();
+
+	res.render("addItem", { categories });
 }
 
 async function postAddItem(req, res) {
-	const { item } = req.body;
-	await inventoryModel.addItem(item);
+	const { item, qty, price, category } = req.body;
+	await inventoryModel.addItem(item, qty, price, category);
 
 	res.redirect("/");
 }
@@ -32,7 +34,9 @@ async function getItem(req, res) {
 		return res.status(404).render("404");
 	}
 
-	res.render("item", { item });
+	const categories = await inventoryModel.getAllCategories();
+
+	res.render("item", { item, categories });
 }
 
 async function postEditItem(req, res) {
@@ -50,7 +54,7 @@ async function postDeleteItem(req, res) {
 	res.redirect("/");
 }
 
-export {
+export default {
 	getIndex,
 	getAddItemForm,
 	postAddItem,

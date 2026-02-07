@@ -5,7 +5,9 @@
 	"description": "The Odin Project - Express & PostgreSQL - Inventory Application",
 	"main": "app.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "NODE_ENV=development node --watch app.js",
+		"start": "NODE_ENV=production node app.js"
 	},
 	"repository": {
 		"type": "git",

@@ -4,22 +4,30 @@ if (process.env.NODE_ENV !== "production") {
 	loadEnvFile();
 }
 
-const express = require("express");
-const path = require("path");
-
-const inventoryRoutes = require("./routes/inventoryRoutes");
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "node:url";
+import inventoryRoutes from "./routes/inventoryRoutes.js";
 
 const app = express();
 
-// view engine
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const assetsPath = path.join(__dirname, "public");
+app.use(express.static(assetsPath));
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// middleware
 app.use(express.urlencoded({ extended: true }));
 
 // routes
 app.use("/", inventoryRoutes);
+
+app.use((req, res) => {
+	res.status(404).render("404");
+});
 
 // server
 const PORT = process.env.PORT || 3000;

@@ -1,6 +1,12 @@
-const { Pool } = require("pg");
+import { loadEnvFile } from "node:process";
 
-module.exports = new Pool({
+if (process.env.NODE_ENV !== "production") {
+	loadEnvFile(); // or use dotenv
+}
+
+import { Pool } from "pg";
+
+export default new Pool({
 	host: process.env.DB_HOST,
 	user: process.env.DB_USER,
 	database: process.env.DB_DATABASE,

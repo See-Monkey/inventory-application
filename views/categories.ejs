@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Categories</title>
+</head>
+<body>
+  <%- include("partials/header.ejs") %>
+
+  <h1>Categories</h1>
+
+  <ul>
+    <% categories.forEach(cat => { %>
+      <li>
+        <%= cat.name %>
+        <form action="/categories/<%= cat.id %>/delete" method="POST" style="display:inline;">
+          <button type="submit" onclick="return confirm('Delete this category?')">Delete</button>
+        </form>
+      </li>
+    <% }) %>
+  </ul>
+
+  <h2>Add New Category</h2>
+  <form action="/categories" method="POST">
+    <input type="text" name="category" placeholder="Category Name" required>
+    <button type="submit">Add Category</button>
+  </form>
+</body>
+</html>
