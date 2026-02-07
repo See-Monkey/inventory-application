@@ -23,6 +23,11 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 
 // routes
+app.use((req, res, next) => {
+	res.locals.currentPath = req.path;
+	next();
+});
+
 app.use("/", inventoryRoutes);
 
 app.use((req, res) => {

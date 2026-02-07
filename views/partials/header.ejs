@@ -4,8 +4,8 @@
 <header>
 	<h1>Adventurer's Shop Inventory Manager</h1>
 	<nav>
-		<a href="/">Home</a>
-		<a href="/new">New Item</a>
-		<a href="/categories">Categories</a>
+		<a href="/" class="<%= currentPath === "/" ? "active" : "" %>">Home</a>
+		<a href="/new" class="<%= currentPath === "/new" ? "active" : "" %>">New Item</a>
+		<a href="/categories" class="<%= currentPath === "/categories" ? "active" : "" %>">Categories</a>
 	</nav>
 </header>
