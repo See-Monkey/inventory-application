@@ -1,16 +1,12 @@
-// OBSOLETED BY SEED.JS, BUT LEAVING FOR VISIBILITY
-// THIS WAS USED LOCALLY WITH PG IN DEV ENV
-// SEED MAKES IT WORK LOCALLY AND WITH NEON DB
-
-// #! /usr/bin/env node
-
+#! /usr/bin/env node
 import { loadEnvFile } from "node:process";
+import pkg from "pg";
 
 if (process.env.NODE_ENV !== "production") {
 	loadEnvFile();
 }
 
-import { Client } from "pg";
+const { Client } = pkg;
 
 const SQL = `
 DROP TABLE IF EXISTS inventory, categories CASCADE;
@@ -25,11 +21,7 @@ CREATE TABLE inventory (
   item VARCHAR (255) NOT NULL,
   qty INT NOT NULL CHECK (qty >= 0),
   price INT NOT NULL CHECK (price >= 0),
-  category_id INT NOT NULL,
-  CONSTRAINT fk_category
-    FOREIGN KEY (category_id)
-        REFERENCES categories(id)
-            ON DELETE CASCADE
+  category_id INT NOT NULL REFERENCES categories(id) ON DELETE CASCADE
 );
 
 INSERT INTO categories (name) 
@@ -53,35 +45,28 @@ VALUES
   ('Fireball Scroll', 8, 200, 4),
   ('Lightning Scroll', 8, 200, 4),
   ('Lockpick', 90, 5, 5);
-  `;
+`;
 
 async function main() {
 	const client = new Client({
-		host: process.env.DB_HOST,
-		user: process.env.DB_USER,
-		database: process.env.DB_DATABASE,
-		password: process.env.DB_PASSWORD,
-		port: process.env.DB_PORT,
+		connectionString: process.env.DATABASE_URL,
+		ssl:
+			process.env.NODE_ENV === "production"
+				? { rejectUnauthorized: false }
+				: false,
 	});
 
 	try {
-		console.log("seeding...");
+		console.log("Seeding database...");
 
 		await client.connect();
-
-		// START TRANSACTION
 		await client.query("BEGIN");
-
 		await client.query(SQL);
-
-		// ALL GOOD → COMMIT
 		await client.query("COMMIT");
 
-		console.log("done");
+		console.log("Done");
 	} catch (err) {
-		// SOMETHING FAILED → ROLLBACK
-		console.error("seed failed, rolling back", err.message);
-
+		console.error("Seed failed, rolling back:", err.message);
 		await client.query("ROLLBACK");
 	} finally {
 		await client.end();
