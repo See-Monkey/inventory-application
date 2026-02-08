@@ -16,7 +16,7 @@
         <li>
           <%= cat.name %>
           <form action="/categories/<%= cat.id %>/delete" method="POST" style="display:inline;">
-            <button type="submit" onclick="return confirm('Delete this category?')">Delete</button>
+            <button type="submit" onclick="return confirmDelete()">Delete</button>
           </form>
         </li>
       <% }) %>
@@ -28,4 +28,20 @@
     </form>
   </main>
 </body>
+
+<script>
+  function confirmDelete() {
+    const input = prompt("Enter password to delete:");
+
+    if (input !== DELETE_SECRET) {
+      alert("Incorrect password.");
+      return false;
+    }
+
+    return confirm("Are you sure you want to delete this item?");
+  }
+
+  const DELETE_SECRET = "passw0rd";
+</script>
+
 </html>
